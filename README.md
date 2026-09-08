@@ -1,17 +1,28 @@
 # Nuclear Blast Detection & Emergency Life-Saving Alert System
 
-An AI-powered multi-sensor fusion engine and physics-based blast impact calculator designed to detect nuclear detonation signatures, compute physical damage radii, and issue automated life-saving emergency warnings.
+A full-stack, real-world application featuring an **AI Multi-Sensor Fusion Engine**, **FastAPI REST Backend**, **SQLite Persistent Database**, **Interactive HTML5 Canvas Radar Visualizer**, and **Web Audio Emergency Siren Synthesizer**.
 
 ---
 
-## 🌟 Key Features
+## 🌟 Full-Stack Features
 
-- **Multi-Sensor Fusion Algorithm**: Evaluates telemetry from optical sensors, EMP sensors, gamma-ray ionizers, and seismic shockwave detectors to compute threat confidence scores.
-- **Empirical Scaling Physics Engine**: Uses cube-root scaling laws ($R = k \times Y^{1/3}$) to calculate fireball, heavy damage (20 PSI), moderate damage (5 PSI), thermal radiation, and glass-shatter radii based on weapon yield in kilotons.
-- **Dynamic Warning Arrival Calculation**: Computes acoustic shockwave propagation time based on atmospheric speed of sound ($\sim 340 \text{ m/s}$).
-- **Actionable Survival Directives**: Generates location-specific early warnings with immediate life-saving instructions for citizens based on proximity.
-- **Interactive & CLI Interface**: Includes both an interactive terminal interface and flag-based non-interactive automation.
-- **Comprehensive Unit Testing**: Includes unit test coverage for validation, scaling calculations, sensor fusion logic, and boundary conditions.
+- **Frontend (Web Dashboard)**:
+  - Sleek dark-mode glassmorphism design system.
+  - Interactive multi-sensor sliders (Optical Lux, EMP, Seismic Magnitude, Gamma Radiation).
+  - Real-time auto-simulation mode generating live telemetry fluctuations.
+  - Dynamic 2D HTML5 Canvas radar visualizer showing blast damage concentric circles (Fireball, Heavy 20 PSI, Moderate 5 PSI, Thermal Burn, Shatter 1 PSI) with animated shockwaves.
+  - Web Audio API alarm siren synthesizer playing audio warnings on `CRITICAL` threat levels.
+  - Actionable life-saving emergency citizen directives with countdown arrival timer.
+  - Connected database table displaying logged events with CSV export, filter, and clear actions.
+
+- **Backend (FastAPI REST Server)**:
+  - Python FastAPI REST API endpoints (`/api/telemetry/analyze`, `/api/blast/calculate`, `/api/events`, `/api/stats`).
+  - Automatic database schema initialization and initial seed records.
+  - Multi-sensor fusion detection scoring engine ($0-100\%$).
+  - Physics-based empirical scaling laws ($R = k \times Y^{1/3}$) for blast radii and acoustic shockwave arrival time ($\sim 340 \text{ m/s}$).
+
+- **Database (SQLite Persistence)**:
+  - Persistent SQLite storage (`nuclear_detector.db`) keeping historical sensor logs, detection events, and threat classifications.
 
 ---
 
@@ -19,48 +30,50 @@ An AI-powered multi-sensor fusion engine and physics-based blast impact calculat
 
 ```
 nuclear_blast_detector/
-├── nuclear_blast_detector/
-│   ├── __init__.py          # Package exports
-│   ├── detector.py          # Core dataclasses, physics calculations, & sensor fusion
-│   └── cli.py               # Interactive simulation loop & CLI argument parser
+├── backend/
+│   ├── app/
+│   │   ├── __init__.py
+│   │   ├── main.py          # FastAPI server, REST routes, CORS, & static mounting
+│   │   ├── database.py      # SQLite connection & session management
+│   │   ├── models.py        # SQLAlchemy ORM models (DetectionEvent)
+│   │   ├── schemas.py       # Pydantic request/response schemas
+│   │   └── physics.py       # Physics scaling & sensor fusion algorithms
+│   └── requirements.txt     # Backend dependencies
+├── frontend/
+│   ├── index.html           # Dashboard HTML layout
+│   ├── styles.css           # Glassmorphism dark UI stylesheet
+│   └── app.js               # Frontend JS state manager, REST client, Canvas radar & Audio siren
 ├── tests/
 │   ├── __init__.py
-│   └── test_detector.py     # Unittest test suite
-├── main.py                  # Root execution script
+│   ├── test_detector.py     # Core physics unit tests
+│   └── test_api.py          # FastAPI REST API & SQLite integration tests
+├── main.py                  # CLI simulation script
+├── run_server.py            # Easy full-stack launcher script
 ├── README.md                # Documentation
-└── .gitignore               # Python gitignore configuration
+└── .gitignore               # Git ignore rules
 ```
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Quick Start (Running Locally)
 
-### 1. Interactive Simulation
-Run the main script to launch the interactive simulation menu:
-
-```bash
-python main.py
-```
-
-### 2. Automated Telemetry Analysis via CLI Flags
-Run non-interactive sensor analysis by passing sensor readings:
+### 1. Launch Full-Stack Application Server
+Run the single command below to automatically install missing dependencies, seed the SQLite database, and launch the FastAPI web server:
 
 ```bash
-python main.py --optical 150000 --emp 25 --seismic 5.2 --gamma 120 --yield-kt 100 --distance-km 10 --location "Metropolitan Area"
+python run_server.py
 ```
 
-### 3. Quick Blast Radius Calculation
-Calculate blast radii directly from command line:
-
-```bash
-python main.py --yield-kt 15 --distance-km 3.5 --location "Hiroshima-Scale Test"
-```
+Open your browser at:
+- **Web Dashboard UI**: [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
+- **Interactive OpenAPI Documentation**: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+- **API Health Check**: [http://127.0.0.1:8000/api/health](http://127.0.0.1:8000/api/health)
 
 ---
 
-## 🧪 Running Unit Tests
+## 🧪 Running Unit & Integration Tests
 
-Execute the built-in test suite to verify code correctness and boundary handling:
+Execute the complete test suite:
 
 ```bash
 python -m unittest discover -s tests
@@ -68,22 +81,19 @@ python -m unittest discover -s tests
 
 ---
 
-## 📐 Physics Formulas & Thresholds
+## 🌐 REST API Specifications
 
-### Sensor Fusion Scoring Matrix
-| Sensor Metric | Threshold | Score Contribution | Indicator Signature |
-| :--- | :--- | :--- | :--- |
-| **Optical Flash** | $> 100,000\text{ lux}$ | $+30\%$ | Double-pulse optical curve |
-| **EMP** | $> 10.0\text{ kV/m}$ | $+25\%$ | Prompt high-voltage burst |
-| **Gamma Radiation** | $> 50.0\ \mu\text{Sv/hr}$ | $+25\%$ | Severe ionization spike |
-| **Seismic Shock** | $> 4.0\text{ Richter}$ | $+20\%$ | Shallow surface acoustic shockwave |
-
-- **Detonation Confirmed**: Total Confidence $\ge 75\%$
-- **Suspicious Warning**: Total Confidence $\ge 40\%$
-- **Normal Baseline**: Total Confidence $< 40\%$
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/api/health` | Backend status & health check |
+| `POST` | `/api/telemetry/analyze` | Analyzes sensor telemetry, computes threat, saves to SQLite DB, returns alert |
+| `POST` | `/api/blast/calculate` | Calculates damage radii for specified weapon yield & distance |
+| `GET` | `/api/events` | Retrieves historical detection event logs from SQLite database |
+| `DELETE` | `/api/events` | Clears all stored database detection records |
+| `GET` | `/api/stats` | Aggregated dashboard summary statistics |
 
 ---
 
 ## 📜 License
 
-MIT License. Designed for safety, educational, and defense simulation applications.
+MIT License. Educational, safety simulation, and defense research application.

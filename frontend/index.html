@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nuclear Blast Early Detection & Life-Saving Alert System</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Top System Header -->
+  <header>
+    <div class="header-content">
+      <div class="brand">
+        <div class="radiation-icon">☢</div>
+        <div>
+          <h1>AI NUCLEAR BLAST DETECTION SYSTEM</h1>
+          <p>Multi-Sensor Fusion • Empirical Blast Scaling • Emergency Citizen Alerts</p>
+        </div>
+      </div>
+      <div class="header-status">
+        <div class="status-badge" id="apiStatusBadge">
+          <span class="dot"></span> <span id="apiStatusText">CONNECTING TO BACKEND...</span>
+        </div>
+        <div class="clock-display" id="clockDisplay">00:00:00 UTC</div>
+        <button class="audio-btn" id="sirenMuteBtn" title="Toggle Emergency Siren Audio">
+          🔊 Siren Sound: ON
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-container">
+
+    <!-- Top Summary Stat Metrics -->
+    <section class="stats-row">
+      <div class="stat-card">
+        <span class="stat-label">TOTAL LOGGED EVENTS</span>
+        <span class="stat-value" id="statTotalEvents">0</span>
+      </div>
+      <div class="stat-card critical">
+        <span class="stat-label">CRITICAL DETONATIONS</span>
+        <span class="stat-value" id="statCriticalThreats">0</span>
+      </div>
+      <div class="stat-card warning">
+        <span class="stat-label">SUSPICIOUS EVENTS</span>
+        <span class="stat-value" id="statSuspiciousEvents">0</span>
+      </div>
+      <div class="stat-card normal">
+        <span class="stat-label">AVERAGE CONFIDENCE</span>
+        <span class="stat-value" id="statAvgConfidence">0%</span>
+      </div>
+    </section>
+
+    <!-- Main Grid Dashboard -->
+    <div class="grid-container">
+
+      <!-- Card 1: Multi-Sensor Telemetry Controls -->
+      <section class="card">
+        <div class="card-header">
+          <h2>📡 Multi-Sensor Telemetry Controls</h2>
+          <label class="toggle-switch" title="Auto-generate live sensor fluctuations">
+            <input type="checkbox" id="autoSimCheck">
+            <span class="slider-round"></span> Live Stream
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label for="opticalInput">
+            <span>Optical Flash Illumination:</span>
+            <span class="val" id="opticalVal">150,000 lux</span>
+          </label>
+          <input type="range" id="opticalInput" min="0" max="250000" step="1000" value="150000">
+        </div>
+
+        <div class="form-group">
+          <label for="empInput">
+            <span>Electromagnetic Pulse (EMP):</span>
+            <span class="val" id="empVal">25.0 kV/m</span>
+          </label>
+          <input type="range" id="empInput" min="0" max="50" step="0.5" value="25.0">
+        </div>
+
+        <div class="form-group">
+          <label for="seismicInput">
+            <span>Acoustic / Seismic Magnitude:</span>
+            <span class="val" id="seismicVal">5.2 Richter</span>
+          </label>
+          <input type="range" id="seismicInput" min="0" max="8.0" step="0.1" value="5.2">
+        </div>
+
+        <div class="form-group">
+          <label for="gammaInput">
+            <span>Gamma Radiation Ionization:</span>
+            <span class="val" id="gammaVal">120.0 µSv/hr</span>
+          </label>
+          <input type="range" id="gammaInput" min="0" max="250" step="1" value="120">
+        </div>
+
+        <div class="preset-buttons">
+          <button class="btn btn-secondary" id="btnPresetNormal">Ambient Baseline</button>
+          <button class="btn btn-warning" id="btnPresetSuspicious">EMP Burst Test</button>
+          <button class="btn btn-danger" id="btnPresetCritical">Strategic Detonation</button>
+        </div>
+      </section>
+
+      <!-- Card 2: Weapon Yield & Epicenter Calculator -->
+      <section class="card">
+        <div class="card-header">
+          <h2>💥 Yield & Proximity Settings</h2>
+        </div>
+
+        <div class="form-group">
+          <label for="locationInput">
+            <span>Target Location Designation:</span>
+          </label>
+          <input type="text" id="locationInput" value="City Center Sector 4" class="text-input">
+        </div>
+
+        <div class="form-group">
+          <label for="yieldInput">
+            <span>Weapon Yield:</span>
+            <span class="val" id="yieldVal">100 KT</span>
+          </label>
+          <input type="range" id="yieldInput" min="1" max="1000" step="1" value="100">
+        </div>
+
+        <div class="form-group">
+          <label for="distanceInput">
+            <span>Distance to Epicenter:</span>
+            <span class="val" id="distanceVal">10.0 km</span>
+          </label>
+          <input type="range" id="distanceInput" min="0.1" max="50" step="0.5" value="10.0">
+        </div>
+
+        <button class="btn btn-primary btn-block" id="btnAnalyzeTelemetry">
+          ⚡ Analyze Sensor Telemetry & Calculate Impact
+        </button>
+      </section>
+
+      <!-- Card 3: Threat Score & Detection Result -->
+      <section class="card">
+        <div class="card-header">
+          <h2>🛡️ Fusion Threat Assessment</h2>
+        </div>
+
+        <div class="threat-display" id="threatDisplayBox">
+          <div class="confidence-circle" id="confidenceGauge">
+            <span class="number" id="confidenceNum">100%</span>
+            <span class="label">CONFIDENCE</span>
+          </div>
+          <div class="threat-status-text" id="threatStatusText">CRITICAL - DETONATION CONFIRMED</div>
+        </div>
+
+        <div class="indicators-container">
+          <h3>Detected Detonation Signatures:</h3>
+          <ul id="indicatorsList" class="indicators-list">
+            <li>Extreme optical flash spike detected (Double-pulse signature)</li>
+            <li>High-voltage Electromagnetic Pulse (EMP) burst detected</li>
+            <li>Severe Gamma radiation ionization spike detected</li>
+            <li>Shallow epicentral acoustic/seismic shockwave detected</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Card 4: Dynamic 2D Blast Radius Canvas Radar -->
+      <section class="card">
+        <div class="card-header">
+          <h2>🎯 Blast Radius & Shockwave Radar Visualizer</h2>
+        </div>
+        <div class="canvas-container">
+          <canvas id="blastCanvas" width="400" height="300"></canvas>
+        </div>
+        <div class="legend-grid">
+          <span class="legend-item fireball">Fireball: <b id="lblFireball">0.32 km</b></span>
+          <span class="legend-item heavy">Heavy (20 PSI): <b id="lblHeavy">1.62 km</b></span>
+          <span class="legend-item moderate">Moderate (5 PSI): <b id="lblModerate">3.95 km</b></span>
+          <span class="legend-item thermal">Thermal Burn: <b id="lblThermal">6.27 km</b></span>
+          <span class="legend-item light">Shatter (1 PSI): <b id="lblLight">10.21 km</b></span>
+        </div>
+      </section>
+
+      <!-- Card 5: Life-Saving Directives -->
+      <section class="card full-width">
+        <div class="card-header">
+          <h2>⚠️ Early Warning Emergency Directives</h2>
+          <div class="countdown-badge" id="arrivalBadge">Estimated Shockwave Arrival: <span id="warningTimeNum">29.4s</span></div>
+        </div>
+
+        <div class="alert-box critical" id="emergencyAlertBox">
+          <div class="alert-title">🚨 EMERGENCY BROADCAST SYSTEM ACTIVATED</div>
+          <div class="alert-instructions" id="alertInstructionsText">
+            <p>1. Move away from all windows immediately to avoid shattered glass.</p>
+            <p>2. Take cover behind solid walls or heavy furniture.</p>
+            <p>3. Stay indoors to prevent fallout radiation exposure.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Card 6: SQLite Database Event History Table -->
+      <section class="card full-width">
+        <div class="card-header">
+          <h2>🗄️ SQLite Persistent Detection Logs</h2>
+          <div class="table-actions">
+            <button class="btn btn-sm btn-secondary" id="btnRefreshLogs">🔄 Refresh Logs</button>
+            <button class="btn btn-sm btn-secondary" id="btnExportCSV">📥 Export CSV</button>
+            <button class="btn btn-sm btn-danger" id="btnClearLogs">🗑️ Clear Database</button>
+          </div>
+        </div>
+
+        <div class="table-wrapper">
+          <table class="data-table" id="eventsTable">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Timestamp (UTC)</th>
+                <th>Location</th>
+                <th>Threat Level</th>
+                <th>Confidence</th>
+                <th>Yield</th>
+                <th>Distance</th>
+                <th>Warning Time</th>
+                <th>Optical</th>
+                <th>EMP</th>
+                <th>Seismic</th>
+                <th>Gamma</th>
+              </tr>
+            </thead>
+            <tbody id="eventsTableBody">
+              <!-- Dynamically populated via REST API / database query -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+    <p>Nuclear Blast Early Detection & Life-Saving System • Connected to FastAPI Backend & SQLite Database</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
